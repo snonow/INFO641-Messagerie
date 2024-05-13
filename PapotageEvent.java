@@ -1,19 +1,18 @@
 public class PapotageEvent {
-    private String subjet;
-    private String corpus;
+    private String sujet;
+    private String corps;
 
     // Constructor
-    public PapotageEvent(String subjet, String corpus) {
-        this.subjet = subjet;
-        this.corpus = corpus;
+    public PapotageEvent(String sujet, String corps) {
+        this.sujet = sujet;
+        this.corps = corps;
     }
 
     // Getter
-    public String getSubjet() {
-        return subjet;
+    public String getSujet() {
+        return sujet;
     }
-    public String getCorpus() {
-        return corpus;
+    public String getCorps() {
+        return corps;
     }
-};
-
+}
