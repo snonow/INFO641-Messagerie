@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
@@ -72,16 +73,23 @@ public class Concierge implements PapotageListener {
     }
 
     // Ajout de nouveaux bavards à la liste des "écoutants"
-    public void addBavardsListening(List<Bavard> listNouveauxBavards) {
+    public void addBavardListening(Bavard nouveauBavard) {
+        this.listBavardsListening.add(nouveauBavard);
+    }
+    public void addBavardListening(List<Bavard> listNouveauxBavards) {
         for (Bavard bavard : listNouveauxBavards) {
             this.listBavardsListening.add(bavard);
         }
     }
 
-    // Constructor
+    // Constructors
     public Concierge(String nom, List<Bavard> bavardsListening) {
         this.nom = nom;
         this.listBavardsListening = bavardsListening;
+    }
+    public Concierge(String nom) {
+        this.nom = nom;
+        this.listBavardsListening = new ArrayList<>();
     }
 
     // Getter
