@@ -15,4 +15,9 @@ public class PapotageEvent {
     public String getCorps() {
         return corps;
     }
+
+    @Override
+    public String toString() {
+        return "Sujet :" + sujet + "\n\nCorps :\n" + corps + "\n";
+    }
 }

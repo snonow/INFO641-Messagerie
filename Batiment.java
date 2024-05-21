@@ -31,6 +31,16 @@ class Batiment {
         concierge.addBavardListening(listBavard);
     }
 
+    // Authentication
+    public Bavard authenticateBavard(String nomBavard, String passwordBavard) {
+        for (Bavard bavard : listBavards) {
+            if (bavard.getNom() == nomBavard && bavard.verifPassword(passwordBavard)) {
+                return bavard;
+            }
+        }
+        return null;
+    }
+
     // Getters
     public Concierge getConcierge() {
         return concierge;

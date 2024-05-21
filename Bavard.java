@@ -1,6 +1,7 @@
 // Définition de la classe Bavard
 class Bavard implements PapotageListener {
     private String nom;
+    private String password;
     private Concierge ecouteConcierge;
     
     // Méthode pour recevoir les événements PapotageEvent
@@ -18,13 +19,29 @@ class Bavard implements PapotageListener {
         }
     }
 
+    // Vérification de si le mot de passe émis est correspondant ou non
+    public boolean verifPassword(String password) {
+        if (this.password == password) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Constructors
-    public Bavard(String nom, Concierge ecouteConcierge) {
+    public Bavard(String nom, String password, Concierge ecouteConcierge) {
         this.nom = nom;
+        this.password = password;
         this.ecouteConcierge = ecouteConcierge;
+    }
+    public Bavard(String nom, String password) {
+        this.nom = nom;
+        this.password = password;
+        this.ecouteConcierge = null;
     }
     public Bavard(String nom) {
         this.nom = nom;
+        this.password = null;
         this.ecouteConcierge = null;
     }
 
@@ -32,11 +49,16 @@ class Bavard implements PapotageListener {
     public String getNom() {
         return nom;
     }
-    public String getConcierge() {
-        return ecouteConcierge.toString();
+    public Concierge getConcierge() {
+        return ecouteConcierge;
     }
 
     // Setter
+    public void setPassword(String password_1, String password_2) {
+        if (password_1 == password_2) {
+            this.password = password_1;
+        }
+    }
     public void setEcouteConcierge(Concierge ecouteConcierge) {
         this.ecouteConcierge = ecouteConcierge;
     }

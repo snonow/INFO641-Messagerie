@@ -6,13 +6,22 @@ public class Concierge implements PapotageListener {
 
     private String nom;
     private List<Bavard> listBavardsListening;
+    private List<PapotageEvent> listPapotageEvents;
 
     // Méthode pour recevoir les événements PapotageEvent
     public void receivePapotage(PapotageEvent event) {
+        // Enregistrement des messages dans la liste des papotages
+        listPapotageEvents.add(event);
+
         // Renvoie des messages reçues au bavards "écoutant"
         for (Bavard bavard : listBavardsListening) {
             bavard.receivePapotage(event);
         }
+    }
+
+    // Supression d'un bavardage
+    public void removePapotageEvent(PapotageEvent event) {
+        listPapotageEvents.remove(event);
     }
 
     // Ajout de nouveaux bavards à la liste des "écoutants"
@@ -41,6 +50,9 @@ public class Concierge implements PapotageListener {
     }
     public String getBavardsListening() {
         return listBavardsListening.toString();
+    }
+    public List<PapotageEvent> getListPapotageEvents() {
+        return listPapotageEvents;
     }
 
     // To-String
