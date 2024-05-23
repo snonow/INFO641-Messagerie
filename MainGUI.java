@@ -15,7 +15,6 @@ public class MainGUI extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        setLocationRelativeTo(null);
 
         // Création du menu
         menuBar = new JMenuBar();
@@ -60,6 +59,9 @@ public class MainGUI extends JFrame {
         centerPanel.add(buttonPanel);
 
         add(centerPanel, BorderLayout.CENTER);
+
+        // On centre la fenêtre
+        setLocationRelativeTo(null);
 
         setVisible(true);
     }

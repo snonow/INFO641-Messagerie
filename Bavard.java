@@ -12,6 +12,10 @@ class Bavard implements PapotageListener {
     }
     
     // Méthode pour créer et émettre des événements PapotageEvent
+    public void sendPapotage(String sujet, String corps, Concierge concierge) {
+        PapotageEvent event = new PapotageEvent(sujet, corps);
+        concierge.receivePapotage(event);
+    }
     public void sendPapotage(String sujet, String corps) {
         PapotageEvent event = new PapotageEvent(sujet, corps);
         if (ecouteConcierge != null) {

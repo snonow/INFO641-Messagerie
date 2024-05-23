@@ -14,20 +14,17 @@ public class BavardGUI extends JFrame {
         setTitle("Bavard: " + bavard.getNom());
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
 
         // Initialisation des composants
         messageArea = new JTextArea(10, 30);
         messageArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(messageArea);
         add(scrollPane, BorderLayout.CENTER);
-
         JPanel messagePanel = new JPanel();
-        messagePanel.setLayout(new GridLayout(4, 2)); // Ajout du bouton pour s'abonner au concierge
         sujetField = new JTextField();
         corpsField = new JTextField();
         envoyerMessageButton = new JButton("Envoyer Message");
-        abonnerConciergeButton = new JButton("S'abonner au Concierge"); // Initialisation du bouton pour s'abonner
+        messagePanel.setLayout(new GridLayout(4, 2));
         messagePanel.add(new JLabel("Sujet:"));
         messagePanel.add(sujetField);
         messagePanel.add(new JLabel("Corps:"));
@@ -35,7 +32,11 @@ public class BavardGUI extends JFrame {
         messagePanel.add(new JLabel(""));
         messagePanel.add(envoyerMessageButton);
         messagePanel.add(new JLabel(""));
-        messagePanel.add(abonnerConciergeButton); // Ajout du bouton pour s'abonner
+        // Ajout du bouton pour s'abonner au concierge si pas déjà fait
+        if (bavard.getConcierge() == null) {
+            abonnerConciergeButton = new JButton("S'abonner au Concierge");
+            messagePanel.add(abonnerConciergeButton); // Ajout du bouton pour s'abonner
+        }
         add(messagePanel, BorderLayout.SOUTH);
 
         // Gestion des événements
@@ -44,12 +45,12 @@ public class BavardGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String sujet = sujetField.getText();
                 String corps = corpsField.getText();
-                if (bavard.getConcierge() != null) {
+                if (batiment.getConcierge() != null) {
                     bavard.sendPapotage(sujet, corps);
-                    afficherMessage("Message envoyé au Concierge");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Le Bavard n'a pas de Concierge associé !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    bavard.sendPapotage(sujet, corps, batiment.getConcierge());
                 }
+                afficherMessage("Message envoyé au Concierge");
             }
         });
 
