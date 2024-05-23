@@ -48,7 +48,6 @@ public class BavardLoginGUI extends JFrame {
                     new BavardGUI(bavard, batiment).setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Nom d'utilisateur ou mot de passe incorrect!", "Erreur", JOptionPane.ERROR_MESSAGE);
-                    JOptionPane.showMessageDialog(null, batiment.getListBavards().toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

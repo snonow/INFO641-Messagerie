@@ -1,8 +1,11 @@
+import java.util.List;
+
 // Définition de la classe Bavard
 class Bavard implements PapotageListener {
     private String nom;
     private String password;
     private Concierge ecouteConcierge;
+    private List<PapotageEvent> sentMessages;
     
     // Méthode pour recevoir les événements PapotageEvent
     public void receivePapotage(PapotageEvent event) {
@@ -13,11 +16,12 @@ class Bavard implements PapotageListener {
     
     // Méthode pour créer et émettre des événements PapotageEvent
     public void sendPapotage(String sujet, String corps, Concierge concierge) {
-        PapotageEvent event = new PapotageEvent(sujet, corps);
+        PapotageEvent event = new PapotageEvent(sujet, corps, this);
+        sentMessages.add(event);
         concierge.receivePapotage(event);
     }
     public void sendPapotage(String sujet, String corps) {
-        PapotageEvent event = new PapotageEvent(sujet, corps);
+        PapotageEvent event = new PapotageEvent(sujet, corps, this);
         if (ecouteConcierge != null) {
             ecouteConcierge.receivePapotage(event);
         }
@@ -25,7 +29,7 @@ class Bavard implements PapotageListener {
 
     // Vérification de si le mot de passe émis est correspondant ou non
     public boolean verifPassword(String password) {
-        if (this.password == password) {
+        if (this.password.equals(password)) {
             return true;
         } else {
             return false;
@@ -72,10 +76,11 @@ class Bavard implements PapotageListener {
         this.ecouteConcierge = ecouteConcierge;
     }
 
-    // To-String
     @Override
     public String toString() {
         return "Bavard [nom=" + nom + ", ecouteConcierge=" + ecouteConcierge + "]";
     }
+
+    
     
 }

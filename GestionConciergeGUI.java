@@ -16,6 +16,7 @@ public class GestionConciergeGUI extends JFrame {
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(rootPane);
 
         // Initialisation des composants
         conciergeArea = new JTextArea(10, 30);
@@ -78,14 +79,5 @@ public class GestionConciergeGUI extends JFrame {
         }
         messagesDisplayPanel.revalidate();
         messagesDisplayPanel.repaint();
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                Batiment batiment = new Batiment(new Concierge("Dupont"));
-                new GestionConciergeGUI(batiment).setVisible(true);
-            }
-        });
     }
 }

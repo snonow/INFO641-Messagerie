@@ -8,6 +8,18 @@ public class Concierge implements PapotageListener {
     private List<Bavard> listBavardsListening;
     private List<PapotageEvent> listPapotageEvents;
 
+    // Constructors
+    public Concierge(String nom, List<Bavard> bavardsListening) {
+        this.nom = nom;
+        this.listBavardsListening = bavardsListening;
+        listPapotageEvents = new ArrayList<>();
+    }
+    public Concierge(String nom) {
+        this.nom = nom;
+        this.listBavardsListening = new ArrayList<>();
+        listPapotageEvents = new ArrayList<>();
+    }
+
     // Méthode pour recevoir les événements PapotageEvent
     public void receivePapotage(PapotageEvent event) {
         // Enregistrement des messages dans la liste des papotages
@@ -32,16 +44,6 @@ public class Concierge implements PapotageListener {
         for (Bavard bavard : listNouveauxBavards) {
             this.listBavardsListening.add(bavard);
         }
-    }
-
-    // Constructors
-    public Concierge(String nom, List<Bavard> bavardsListening) {
-        this.nom = nom;
-        this.listBavardsListening = bavardsListening;
-    }
-    public Concierge(String nom) {
-        this.nom = nom;
-        this.listBavardsListening = new ArrayList<>();
     }
 
     // Getter

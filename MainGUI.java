@@ -7,51 +7,63 @@ public class MainGUI extends JFrame {
     private Batiment batiment;
     private JMenuBar menuBar;
     private JMenu menu;
-    private JMenuItem menuItem;
-
+    
     public MainGUI() {
-        batiment = new Batiment(new Concierge("Insta")); // Assurez-vous que Batiment et Concierge sont bien initialisés
-        setTitle("Bienvenue sur " + batiment.getConcierge().getNom());
-        setSize(400, 300);
+        // Initialize Batiment and Concierge
+        batiment = new Batiment(new Concierge("Insta"));
+        
+        // Set up the main GUI frame
+        setTitle("Welcome to " + batiment.getConcierge().getNom());
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null); // Center the frame on the screen
 
-        // Création du menu
+        // Create the menu bar and menu items
+        createMenuBar();
+
+        // Create the central panel with the concierge's name and welcome message
+        createCenterPanel();
+
+        // Make the frame visible
+        setVisible(true);
+    }
+
+    private void createMenuBar() {
         menuBar = new JMenuBar();
-        menu = new JMenu("Menu");
-        menuItem = new JMenuItem("Gestion des bavards");
-        menuItem = new JMenuItem("Option");
-        menu.add(menuItem);
-        menuBar.add(menu);
+
+        // Define menu items and their actions
+        String[] menuItemNames = {"Gestion du concierge", "Gestion des bavards", "Option"};
+        ActionListener[] menuActions = {
+            e ->  new GestionConciergeGUI(batiment).setVisible(true),
+            e -> new GestionBavardsGUI(batiment).setVisible(true),
+            e -> showMessage("Option is not yet implemented.")
+        };
+
+        // Add menu items to the menu bar
+        for (int i = 0; i < menuItemNames.length; i++) {
+            JMenuItem menuItem = new JMenuItem(menuItemNames[i]);
+            menuItem.addActionListener(menuActions[i]);
+            menuBar.add(menuItem);
+        }
+
         setJMenuBar(menuBar);
+    }
 
-        // Création du panneau central avec le nom du concierge et le message de bienvenue
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(3, 1, 0, 20)); // 3 lignes, 1 colonne, espacement vertical de 20
+    private void createCenterPanel() {
+        JPanel centerPanel = new JPanel(new GridLayout(3, 1, 0, 20));
+
         JLabel conciergeLabel = new JLabel("Concierge: " + batiment.getConcierge().getNom(), SwingConstants.CENTER);
-        JLabel welcomeLabel = new JLabel("Bienvenue dans l'application de gestion des Bavards!", SwingConstants.CENTER);
+        JLabel welcomeLabel = new JLabel("Welcome to the Bavards management application!", SwingConstants.CENTER);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0)); // Centré avec espacement horizontal de 20
+        // Create buttons for login and registration
         JButton loginButton = new JButton("Connexion");
+        loginButton.addActionListener(e -> new BavardLoginGUI(batiment).setVisible(true));
+
         JButton registerButton = new JButton("Enregistrement");
+        registerButton.addActionListener(e -> new BavardRegisterGUI(batiment).setVisible(true));
 
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Ouvrir la fenêtre de connexion
-                new BavardLoginGUI(batiment).setVisible(true);
-            }
-        });
-
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Ouvrir la fenêtre d'enregistrement
-                new BavardRegisterGUI(batiment).setVisible(true);
-            }
-        });
-
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         buttonPanel.add(loginButton);
         buttonPanel.add(registerButton);
 
@@ -60,18 +72,13 @@ public class MainGUI extends JFrame {
         centerPanel.add(buttonPanel);
 
         add(centerPanel, BorderLayout.CENTER);
+    }
 
-        // On centre la fenêtre
-        setLocationRelativeTo(null);
-
-        setVisible(true);
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new MainGUI();
-            }
-        });
+        SwingUtilities.invokeLater(MainGUI::new);
     }
 }
