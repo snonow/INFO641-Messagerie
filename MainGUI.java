@@ -19,6 +19,7 @@ public class MainGUI extends JFrame {
         // Création du menu
         menuBar = new JMenuBar();
         menu = new JMenu("Menu");
+        menuItem = new JMenuItem("Gestion des bavards");
         menuItem = new JMenuItem("Option");
         menu.add(menuItem);
         menuBar.add(menu);
