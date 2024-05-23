@@ -4,9 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BavardGUI extends JFrame {
-    private Bavard bavard;
-    private Batiment batiment;
-
     private JTextArea messageArea;
     private JTextField sujetField;
     private JTextField corpsField;
@@ -14,12 +11,10 @@ public class BavardGUI extends JFrame {
     private JButton abonnerConciergeButton; // Bouton pour s'abonner au concierge du bâtiment
 
     public BavardGUI(Bavard bavard, Batiment batiment) {
-        this.bavard = bavard;
-        this.batiment = batiment;
-
         setTitle("Bavard: " + bavard.getNom());
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         // Initialisation des composants
         messageArea = new JTextArea(10, 30);

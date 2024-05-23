@@ -15,6 +15,7 @@ public class MainGUI extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
         // Création du menu
         menuBar = new JMenuBar();

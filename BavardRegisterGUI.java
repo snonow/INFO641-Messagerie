@@ -14,6 +14,7 @@ public class BavardRegisterGUI extends JFrame {
         setTitle("Inscription");
         setSize(400, 250);
         setLayout(new GridLayout(5, 1));
+        setLocationRelativeTo(rootPane);
 
         // Champ pour saisir le nom du Bavard
         JPanel nomBavardPanel = new JPanel(new FlowLayout());

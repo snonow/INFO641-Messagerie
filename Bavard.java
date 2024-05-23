@@ -39,6 +39,11 @@ class Bavard implements PapotageListener {
         this.password = password;
         this.ecouteConcierge = null;
     }
+    public Bavard(String nom, Concierge ecouteConcierge) {
+        this.nom = nom;
+        this.password = null;
+        this.ecouteConcierge = ecouteConcierge;
+    }
     public Bavard(String nom) {
         this.nom = nom;
         this.password = null;
