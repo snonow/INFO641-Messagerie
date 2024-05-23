@@ -3,7 +3,6 @@ import java.util.List;
 
 // Définition de la classe Concierge
 public class Concierge implements PapotageListener {
-
     private String nom;
     private List<Bavard> listBavardsListening;
     private List<PapotageEvent> listPapotageEvents;

@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 public class MainGUI extends JFrame {
     private Batiment batiment;
     private JMenuBar menuBar;
-    private JMenu menu;
     
     public MainGUI() {
         // Initialize Batiment and Concierge
@@ -35,7 +34,7 @@ public class MainGUI extends JFrame {
         // Define menu items and their actions
         String[] menuItemNames = {"Gestion du concierge", "Gestion des bavards", "Option"};
         ActionListener[] menuActions = {
-            e ->  new GestionConciergeGUI(batiment).setVisible(true),
+            e -> new GestionConciergeGUI(batiment).setVisible(true),
             e -> new GestionBavardsGUI(batiment).setVisible(true),
             e -> showMessage("Option is not yet implemented.")
         };
