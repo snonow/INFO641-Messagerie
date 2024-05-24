@@ -1,11 +1,8 @@
-import java.util.List;
-
 // Définition de la classe Bavard
 class Bavard implements PapotageListener {
     private String nom;
     private String password;
     private Concierge ecouteConcierge;
-    private List<PapotageEvent> sentMessages;
     
     // Méthode pour recevoir les événements PapotageEvent
     public void receivePapotage(PapotageEvent event) {
@@ -17,7 +14,6 @@ class Bavard implements PapotageListener {
     // Méthode pour créer et émettre des événements PapotageEvent
     public void sendPapotage(String sujet, String corps, Concierge concierge) {
         PapotageEvent event = new PapotageEvent(sujet, corps, this);
-        sentMessages.add(event);
         concierge.receivePapotage(event);
     }
     public void sendPapotage(String sujet, String corps) {
