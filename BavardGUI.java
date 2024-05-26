@@ -119,7 +119,7 @@ public class BavardGUI extends JFrame {
             }
         });
 
-        if (abonnerConciergeButton != null) {
+        if (abonnerConciergeButton!= null) {
             abonnerConciergeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -129,62 +129,61 @@ public class BavardGUI extends JFrame {
                 }
             });
         }
-    }
-
-    private void startUpdateTimer(Bavard bavard) {
-        updateTimer = new Timer(250, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateMessageArea(bavard);
-                updateOnlineUsers();
-            }
-        });
-        updateTimer.start();
-    }
-
-    private void addWindowClosingListener(Bavard bavard) {
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                batiment.removeOnlineBavard(bavard);
-                dispose();
-            }
-        });
-    }
-
-    private void updateMessageArea(Bavard bavard) {
-        otherMessagesPanel.removeAll();
-        myMessagesPanel.removeAll();
-        Boolean resultat_bavard = (bavard.getConcierge() != null);
-
-        for (PapotageEvent papotage : batiment.getConcierge().getListPapotageEvents()) {
-            JButton messageButton = new JButton(papotage.getSujet() + ": " + papotage.getCorps());
-            messageButton.addActionListener(new ActionListener() {
+        
+        private void startUpdateTimer(Bavard bavard) {
+            updateTimer = new Timer(250, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    new MessagePopUpGUI(papotage.getSujet(), papotage.getCorps()).setVisible(true);
+                    updateMessageArea(bavard);
+                    updateOnlineUsers();
                 }
             });
-
-            if (papotage.getSender().equals(bavard)) {
-                myMessagesPanel.add(messageButton);
-            } else if (resultat_bavard) {
-                otherMessagesPanel.add(messageButton);
+            updateTimer.start();
+        }
+        
+        private void addWindowClosingListener(Bavard bavard) {
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    batiment.removeOnlineBavard(bavard);
+                    dispose();
+                }
+            });
+        }
+        
+        private void updateMessageArea(Bavard bavard) {
+            otherMessagesPanel.removeAll();
+            myMessagesPanel.removeAll();
+            Boolean resultat_bavard = (bavard.getConcierge()!= null);
+        
+            for (PapotageEvent papotage : batiment.getConcierge().getListPapotageEvents()) {
+                JButton messageButton = new JButton(papotage.getSujet() + ": " + papotage.getCorps());
+                messageButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        new MessagePopUpGUI(papotage.getSujet(), papotage.getCorps()).setVisible(true);
+                    }
+                });
+        
+                if (papotage.getSender().equals(bavard)) {
+                    myMessagesPanel.add(messageButton);
+                } else if (resultat_bavard) {
+                    otherMessagesPanel.add(messageButton);
+                }
             }
+            otherMessagesPanel.revalidate();
+            otherMessagesPanel.repaint();
+            myMessagesPanel.revalidate();
+            myMessagesPanel.repaint();
         }
-        otherMessagesPanel.revalidate();
-        otherMessagesPanel.repaint();
-        myMessagesPanel.revalidate();
-        myMessagesPanel.repaint();
-    }
-
-    private void updateOnlineUsers() {
-        onlineUsersPanel.removeAll();
-        List<Bavard> onlineBavards = batiment.getOnlineBavards();
-        for (Bavard onlineBavard : onlineBavards) {
-            onlineUsersPanel.add(new JLabel(onlineBavard.getNom()));
+        
+        private void updateOnlineUsers() {
+            onlineUsersPanel.removeAll();
+            List<Bavard> onlineBavards = batiment.getOnlineBavards();
+            for (Bavard onlineBavard : onlineBavards) {
+                onlineUsersPanel.add(new JLabel(onlineBavard.getNom()));
+            }
+            onlineUsersPanel.revalidate();
+            onlineUsersPanel.repaint();
         }
-        onlineUsersPanel.revalidate();
-        onlineUsersPanel.repaint();
     }
-}
