@@ -89,7 +89,7 @@ public class BavardGUI extends JFrame {
         JPanel messagesContainer = new JPanel(new GridLayout(2, 1));
         messagesContainer.add(otherMessagesScrollPane);
         messagesContainer.add(myMessagesScrollPane);
-        mainPanel.add(messagesContainer, BorderLayout.EAST);
+        mainPanel.add(messagesContainer, BorderLayout.CENTER);
 
         add(mainPanel);
 
@@ -101,6 +101,8 @@ public class BavardGUI extends JFrame {
                 String corps = corpsField.getText();
                 bavard.sendPapotage(sujet, corps, batiment.getConcierge());
                 updateMessageArea(bavard);
+                sujetField.setText("");
+                corpsField.setText("");
             }
         });
 
@@ -120,10 +122,8 @@ public class BavardGUI extends JFrame {
         updateTimer = new Timer(250, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (bavard.getConcierge() != null) {
-                    updateMessageArea(bavard);
-                    updateOnlineUsers();
-                }
+                updateMessageArea(bavard);
+                updateOnlineUsers();
             }
         });
         updateTimer.start();
@@ -161,7 +161,7 @@ public class BavardGUI extends JFrame {
 
             if (papotage.getSender().equals(bavard)) {
                 myMessagesPanel.add(messageButton);
-            } else {
+            } else if (bavard.getConcierge() != null) {
                 otherMessagesPanel.add(messageButton);
             }
         }

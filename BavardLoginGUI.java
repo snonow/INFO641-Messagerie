@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class BavardLoginGUI extends JFrame {
     private JTextField nomBavardField;
@@ -34,26 +36,46 @@ public class BavardLoginGUI extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nomBavard = nomBavardField.getText();
-                String motDePasse = new String(motDePasseField.getPassword());
-
-                if (nomBavard.isEmpty() || motDePasse.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs!", "Erreur", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                Bavard bavard = batiment.authenticateBavard(nomBavard, motDePasse);
-                if (bavard != null) {
-                    JOptionPane.showMessageDialog(null, "Connexion réussie!");
-                    new BavardGUI(bavard, batiment).setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Nom d'utilisateur ou mot de passe incorrect!", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                login(batiment);
             }
         });
+
+        // Ajout du KeyListener pour détecter l'appui sur la touche Enter
+        KeyAdapter enterKeyListener = new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    login(batiment);
+                }
+            }
+        };
+
+        nomBavardField.addKeyListener(enterKeyListener);
+        motDePasseField.addKeyListener(enterKeyListener);
+
         loginPanel.add(loginButton);
         add(loginPanel);
 
         setVisible(true);
+    }
+
+    // Méthode de connexion
+    private void login(Batiment batiment) {
+        String nomBavard = nomBavardField.getText();
+        String motDePasse = new String(motDePasseField.getPassword());
+
+        if (nomBavard.isEmpty() || motDePasse.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs!", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Bavard bavard = batiment.authenticateBavard(nomBavard, motDePasse);
+        if (bavard != null) {
+            JOptionPane.showMessageDialog(null, "Connexion réussie!");
+            new BavardGUI(bavard, batiment).setVisible(true);
+            dispose(); // Ferme la fenêtre de connexion après une connexion réussie
+        } else {
+            JOptionPane.showMessageDialog(null, "Nom d'utilisateur ou mot de passe incorrect!", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
