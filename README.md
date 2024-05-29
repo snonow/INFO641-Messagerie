@@ -12,28 +12,28 @@ Clonez le repo git et lancer le fichier `MainGUI.java` c'est ensuite que la magi
 ### Inscription
 L'inscription permet aux nouveaux utilisateurs de créer un compte. Les utilisateurs doivent fournir un nom d'utilisateur unique et un mot de passe ainsi que sa confirmation pour s'inscrire.
 
-![[img-readme-rapport/Inscription.png]]
+![](img-readme-rapport/Inscription.png)
 ### Connexion
 La fonctionnalité de connexion permet aux utilisateurs inscrits d'accéder à leur compte. Ils doivent entrer leur nom d'utilisateur et leur mot de passe pour se connecter.
 
-![[img-readme-rapport/Login.png]]
+![](img-readme-rapport/Login.png)
 ### Envoi de Message
 Les utilisateurs peuvent envoyer des messages à d'autres utilisateurs connectés. Cette fonctionnalité inclut la possibilité de mettre un objet et un corps dans le message.
 
-![[img-readme-rapport/Connecté.png]]
+![](img-readme-rapport/Connecté.png)
 ### Abonnement aux Messages des Autres
 Les utilisateurs peuvent s'abonner aux messages d'autres utilisateurs. Cela signifie qu'ils recevront et pourront lire les messages de tout les  utilisateurs.
 
-![[img-readme-rapport/Connexion_concierge.png]]
+![](img-readme-rapport/Connexion_concierge.png)
 ### Consultation des Messages
 Les utilisateurs peuvent consulter tous les messages disponibles dans un pop-up. Cette fonctionnalité offre une vue claire et organisée des messages reçus et envoyés, permettant aux utilisateurs de suivre facilement leurs conversations.
 
-![[img-readme-rapport/Messages_envoyés_recu.png]]
-![[img-readme-rapport/messages_pop-up.png]]
+![](img-readme-rapport/Messages_envoyés_recu.png)
+![](img-readme-rapport/messages_pop-up.png)
 ### Visualisation des Utilisateurs en Ligne
 Cette fonctionnalité permet aux utilisateurs de voir qui est en ligne. Une liste des utilisateurs actuellement connectés est affichée sur la partie gauche de la fenêtre, une fois que l'utilisateur est connecté.
 
-![[img-readme-rapport/Utilisateurs_connectes.png]]
+![](img-readme-rapport/Utilisateurs_connectes.png)
 # Conclusion et À Venir
 
 ### Fonctionnalités à Venir
