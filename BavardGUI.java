@@ -25,90 +25,75 @@ public class BavardGUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Initialize panels
-        JPanel inputPanel = createInputPanel(bavard);
-        JPanel mainPanel = createMainPanel(inputPanel);
-        JPanel messagesContainer = createMessagesContainer();
-        JScrollPane onlineUsersScrollPane = createScrollPaneForPanel(onlineUsersPanel);
-        JScrollPane otherMessagesScrollPane = createScrollPaneForPanel(otherMessagesPanel);
-        JScrollPane myMessagesScrollPane = createScrollPaneForPanel(myMessagesPanel);
-
-        // Add components to main panel
-        mainPanel.add(onlineUsersScrollPane, BorderLayout.WEST);
-        mainPanel.add(inputPanel, BorderLayout.SOUTH);
-        mainPanel.add(messagesContainer, BorderLayout.EAST);
-        add(mainPanel);
-
-        // Register action listeners
-        registerActionListeners(bavard);
-
-        // Start update timer
-        startUpdateTimer(bavard);
-
-        // Register window closing event
-        addWindowClosingListener(bavard);
-
-        setVisible(true);
-    }
-
-    private JPanel createInputPanel(Bavard bavard) {
+        // Initialize the panel for input fields and buttons
         JPanel inputPanel = new JPanel(new GridLayout(4, 2));
         sujetField = new JTextField();
         corpsField = new JTextField();
-        envoyerMessageButton = new JButton("Send Message");
+        envoyerMessageButton = new JButton("Envoyer Message");
 
         // Add components to the input panel
-        inputPanel.add(new JLabel("Subject:"));
+        inputPanel.add(new JLabel("Subject:")); // Label for subject field
         inputPanel.add(sujetField);
-        inputPanel.add(new JLabel("Body:"));
+        inputPanel.add(new JLabel("Body:")); // Label for message body field
         inputPanel.add(corpsField);
-        inputPanel.add(new JLabel(""));
+        inputPanel.add(new JLabel("")); // Empty cell for alignment
         inputPanel.add(envoyerMessageButton);
+        inputPanel.add(new JLabel("")); // Empty cell for alignment
 
         // Add subscription button if not already subscribed to the concierge
         if (bavard.getConcierge() == null) {
             abonnerConciergeButton = new JButton("Subscribe to Concierge");
             inputPanel.add(abonnerConciergeButton);
         }
-        return inputPanel;
-    }
 
-    private JPanel createMainPanel(JPanel inputPanel) {
+        // Panel for online users
+        onlineUsersPanel = new JPanel();
+        onlineUsersPanel.setLayout(new BoxLayout(onlineUsersPanel, BoxLayout.Y_AXIS));
+        JScrollPane onlineUsersScrollPane = new JScrollPane(onlineUsersPanel);
+        onlineUsersScrollPane.setPreferredSize(new Dimension(200, 600));
+
+        // Panel for other users' messages
+        otherMessagesPanel = new JPanel();
+        otherMessagesPanel.setLayout(new BoxLayout(otherMessagesPanel, BoxLayout.Y_AXIS));
+        JScrollPane otherMessagesScrollPane = new JScrollPane(otherMessagesPanel);
+        otherMessagesScrollPane.setPreferredSize(new Dimension(400, 300));
+
+        // Panel for current user's messages
+        myMessagesPanel = new JPanel();
+        myMessagesPanel.setLayout(new BoxLayout(myMessagesPanel, BoxLayout.Y_AXIS));
+        JScrollPane myMessagesScrollPane = new JScrollPane(myMessagesPanel);
+        myMessagesScrollPane.setPreferredSize(new Dimension(400, 300));
+
+        // Main panel to hold everything
         JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // Add labels for each section
         JLabel onlineUsersLabel = new JLabel("Online Users");
         JLabel messagesLabel = new JLabel("Messages");
         JLabel inputLabel = new JLabel("Input");
-        onlineUsersPanel = new JPanel();
-        onlineUsersPanel.setLayout(new BoxLayout(onlineUsersPanel, BoxLayout.Y_AXIS));
 
+        // Align labels
         onlineUsersLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messagesLabel.setHorizontalAlignment(SwingConstants.CENTER);
         inputLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+        // Add labels to main panel
         mainPanel.add(onlineUsersLabel, BorderLayout.WEST);
         mainPanel.add(messagesLabel, BorderLayout.CENTER);
         mainPanel.add(inputLabel, BorderLayout.SOUTH);
-        return mainPanel;
-    }
 
-    private JPanel createMessagesContainer() {
+        // Add subpanels to main panel
+        mainPanel.add(onlineUsersScrollPane, BorderLayout.WEST);
+        mainPanel.add(inputPanel, BorderLayout.SOUTH);
+
         JPanel messagesContainer = new JPanel(new GridLayout(2, 1));
-        otherMessagesPanel = new JPanel();
-        otherMessagesPanel.setLayout(new BoxLayout(otherMessagesPanel, BoxLayout.Y_AXIS));
-        myMessagesPanel = new JPanel();
-        myMessagesPanel.setLayout(new BoxLayout(myMessagesPanel, BoxLayout.Y_AXIS));
-        messagesContainer.add(createScrollPaneForPanel(otherMessagesPanel));
-        messagesContainer.add(createScrollPaneForPanel(myMessagesPanel));
-        return messagesContainer;
-    }
+        messagesContainer.add(otherMessagesScrollPane);
+        messagesContainer.add(myMessagesScrollPane);
+        mainPanel.add(messagesContainer, BorderLayout.EAST);
 
-    private JScrollPane createScrollPaneForPanel(JPanel panel) {
-        JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.setPreferredSize(new Dimension(400, 300));
-        return scrollPane;
-    }
+        add(mainPanel);
 
-    private void registerActionListeners(Bavard bavard) {
+        // Action listener for sending messages
         envoyerMessageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -119,71 +104,81 @@ public class BavardGUI extends JFrame {
             }
         });
 
-        if (abonnerConciergeButton!= null) {
+        // Action listener for subscribing to the concierge
+        if (abonnerConciergeButton != null) {
             abonnerConciergeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     bavard.setEcouteConcierge(batiment.getConcierge());
                     JOptionPane.showMessageDialog(null, "Subscribed to Building Concierge!\n\nReconnect to apply changes.");
-                    dispose();
+                    dispose(); // Close the current window
                 }
             });
         }
-        
-        private void startUpdateTimer(Bavard bavard) {
-            updateTimer = new Timer(250, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
+
+        // Timer to periodically refresh the message list if subscribed to the concierge
+        updateTimer = new Timer(250, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (bavard.getConcierge() != null) {
                     updateMessageArea(bavard);
                     updateOnlineUsers();
                 }
-            });
-            updateTimer.start();
-        }
-        
-        private void addWindowClosingListener(Bavard bavard) {
-            addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    batiment.removeOnlineBavard(bavard);
-                    dispose();
-                }
-            });
-        }
-        
-        private void updateMessageArea(Bavard bavard) {
-            otherMessagesPanel.removeAll();
-            myMessagesPanel.removeAll();
-            Boolean resultat_bavard = (bavard.getConcierge()!= null);
-        
-            for (PapotageEvent papotage : batiment.getConcierge().getListPapotageEvents()) {
-                JButton messageButton = new JButton(papotage.getSujet() + ": " + papotage.getCorps());
-                messageButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        new MessagePopUpGUI(papotage.getSujet(), papotage.getCorps()).setVisible(true);
-                    }
-                });
-        
-                if (papotage.getSender().equals(bavard)) {
-                    myMessagesPanel.add(messageButton);
-                } else if (resultat_bavard) {
-                    otherMessagesPanel.add(messageButton);
-                }
             }
-            otherMessagesPanel.revalidate();
-            otherMessagesPanel.repaint();
-            myMessagesPanel.revalidate();
-            myMessagesPanel.repaint();
-        }
-        
-        private void updateOnlineUsers() {
-            onlineUsersPanel.removeAll();
-            List<Bavard> onlineBavards = batiment.getOnlineBavards();
-            for (Bavard onlineBavard : onlineBavards) {
-                onlineUsersPanel.add(new JLabel(onlineBavard.getNom()));
+        });
+        updateTimer.start();
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                batiment.removeOnlineBavard(bavard); // Remove the Bavard from the online list
+                dispose(); // Close the window
             }
-            onlineUsersPanel.revalidate();
-            onlineUsersPanel.repaint();
-        }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                batiment.removeOnlineBavard(bavard); // Ensure the Bavard is removed when window is closed
+            }
+        });
+
+        setVisible(true);
     }
+
+    // Update the message area with the latest messages from the concierge
+    private void updateMessageArea(Bavard bavard) {
+        otherMessagesPanel.removeAll(); // Clear other users' messages area
+        myMessagesPanel.removeAll(); // Clear current user's messages area
+
+        for (PapotageEvent papotage : batiment.getConcierge().getListPapotageEvents()) {
+            JButton messageButton = new JButton(papotage.getSujet() + ": " + papotage.getCorps());
+            // Add action listener to open MessagePopUpGUI on button click
+            messageButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    new MessagePopUpGUI(papotage.getSujet(), papotage.getCorps()).setVisible(true);
+                }
+            });
+
+            if (papotage.getSender().equals(bavard)) {
+                myMessagesPanel.add(messageButton);
+            } else {
+                otherMessagesPanel.add(messageButton);
+            }
+        }
+        otherMessagesPanel.revalidate();
+        otherMessagesPanel.repaint();
+        myMessagesPanel.revalidate();
+        myMessagesPanel.repaint();
+    }
+
+    // Update the online users panel with the list of online users
+    private void updateOnlineUsers() {
+        onlineUsersPanel.removeAll();
+        List<Bavard> onlineBavards = batiment.getOnlineBavards();
+        for (Bavard onlineBavard : onlineBavards) {
+            onlineUsersPanel.add(new JLabel(onlineBavard.getNom()));
+        }
+        onlineUsersPanel.revalidate();
+        onlineUsersPanel.repaint();
+    }
+}
